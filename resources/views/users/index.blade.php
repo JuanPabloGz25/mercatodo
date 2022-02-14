@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Table of Users') }}
+            {{ __('Tabla de Usuarios') }}
         </h2>
     </x-slot>
 
@@ -13,20 +13,25 @@
                          
                          <table class="table table-striped mt-2">
                            <thead style="background-color:#6777ef">                                     
-                               <th>ID</th>
                                <th>Nombre</th>
-                               <th>E-mail</th>
+                               <th>Correo</th>
+                               <th>Rol</th>
                                <th>Acciones</th>     
                                <th>Estado</th>                                                              
                            </thead>
                            <tbody>
                              @foreach ($users as $user)
                                <tr>
-                                 <td>{{ $user->id }}</td>
                                  <td>{{ $user->name }}</td>
                                  <td>{{ $user->email }}</td>
-                                 
-                                                                 
+                                 <td>
+                                    @if(!empty($user->getRoleNames()))
+                                        @foreach($user->getRoleNames() as $rolName)
+                                            <h5><span class="badge badge-dark">{{$rolName}}</span></h5>
+                                        @endforeach
+                                    @endif
+                                </td>
+
                                  <td class="inline-flex">
                                         <div class="p-2">
                                             <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
@@ -37,24 +42,29 @@
                                         <div class="p-2">
                                             <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
                                                 {!! Form::open(['method'=>'DELETE', 'route'=>['users.destroy', $user->id]]) !!}
-                                                {!! Form::submit(trans('Delete')) !!}
+                                                {!! Form::submit(trans('Eliminar')) !!}
                                                 {!! Form::close() !!}
                                             </div>
                                         </div>
-                                        <div>
+                                        <div class="p-2">
+                                        <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
                                         <form action="{{route('StatusChange', $user->id) }}"method="POST">
                                             @method('PUT')
                                             @csrf
-                                            <button type="submit">{{$user->status}}</button>
+                                            <button type="submit">@if($user->status == 'enable')
+                                            Desactivar 
+                                        @else
+                                            Activar
+                                        @endif</button>
                                         </form>
                                         </div>
-                                        
+                                        </div>
                                     </td>
                                     <td>
                                         @if($user->status == 'enable')
-                                            Activo
+                                            Usuario Activo
                                         @else
-                                            Desactivado
+                                            Usuario Inactivo
                                         @endif
                                     </td>
                                </tr>
