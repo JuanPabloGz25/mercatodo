@@ -1,72 +1,71 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tabla de Usuarios') }}
+            {{ __('TABLA DE USUARIOS') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="bg-white rounded-lg shadow-sm p-2 text-center flex flex-col gap-3">
-                <a class="btn btn-warning" href="{{ route('users.create') }}">Nuevo</a>        
-                         
-                         <table class="table table-striped mt-2">
-                           <thead style="background-color:#6777ef">                                     
-                               <th>Nombre</th>
-                               <th>Correo</th>
-                               <th>Rol</th>
-                               <th>Acciones</th>     
-                               <th>Estado</th>                                                              
-                           </thead>
-                           <tbody>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-center">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+
+                <a type="button" href="{{ route('users.create') }}" class="bg-indigo-500 px-12 py-2 rounded text-black-200 font-semibold hover:bg-indigo-800 transition duration-200 each-in-out">CREAR NUEVO USUARIO</a>
+                <table class="table-auto w-full">
+                    <thead>
+                    <tr class="bg-gray-900 text-white">
+                        <th class="border px-4 py-2">NOMBRE</th>
+                        <th class="border px-4 py-2">CORREO</th>
+                        <th class="border px-4 py-2">ROL</th>
+                        <th class="border px-4 py-2">ACCIONES</th>
+                        <th class="border px-4 py-2">ESTADO</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
                              @foreach ($users as $user)
                                <tr>
-                                 <td>{{ $user->name }}</td>
-                                 <td>{{ $user->email }}</td>
-                                 <td>
+                                 <td class="border px-4 py-2 border-gray-900"> {{ $user->name }} </td>
+                                 <td class="border px-4 py-2 border-gray-900">{{ $user->email }} </td>
+                                 <td class="border px-4 py-2 border-gray-900">
                                     @if(!empty($user->getRoleNames()))
                                         @foreach($user->getRoleNames() as $rolName)
-                                            <h5><span class="badge badge-dark">{{$rolName}}</span></h5>
+                                            <h5><span class="border px-4 py-2 border-gray-900">{{$rolName}}</span></h5>
                                         @endforeach
                                     @endif
                                 </td>
 
-                                 <td class="inline-flex">
-                                        <div class="p-2">
-                                            <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
-                                                <a class="inline-flex bg-teal-300 text-black rounded-full h-6 px-3 justify-center items-center" href="{{ route('users.edit', $user->id) }}">{{trans('Edit')}}</a>
-                                            </div>
-                                        </div>
+                                   <td class="border px-4 py-2 border-gray-900">
+                                       <div class="flex justify-center rounded-lg text-lg text-center" role="group">
+                                           <!-- botón editar -->
+                                           <a href="{{ route('users.edit', $user->id) }}" class="rounded bg-blue-600 hover:bg-blue-300 text-white font-bold py-1 px-1">EDITAR</a>
 
-                                        <div class="p-2">
-                                            <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
-                                                {!! Form::open(['method'=>'DELETE', 'route'=>['users.destroy', $user->id]]) !!}
-                                                {!! Form::submit(trans('Eliminar')) !!}
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </div>
-                                        <div class="p-2">
-                                        <div class="inline-flex items-center bg-white leading-none text-purple-600 rounded-full p-2 shadow text-teal text-sm">
-                                        <form action="{{route('StatusChange', $user->id) }}"method="POST">
-                                            @method('PUT')
-                                            @csrf
-                                            <button type="submit">@if($user->status == 'enable')
-                                            Desactivar 
-                                        @else
-                                            Activar
-                                        @endif</button>
-                                        </form>
-                                        </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @if($user->status == 'enable')
-                                            Usuario Activo
-                                        @else
-                                            Usuario Inactivo
-                                        @endif
-                                    </td>
+                                           <!-- botón borrar -->
+                                           <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="formEliminar">
+                                               @csrf
+                                               @method('DELETE')
+                                               <button type="submit" class="rounded bg-red-600 hover:bg-red-300 text-white font-bold py-1 px-1">BORRAR</button>
+                                           </form>
+
+                                           <!-- botón estado -->
+                                           <form action="{{route('StatusChange', $user->id) }}"method="POST">
+                                               @method('PUT')
+                                               @csrf
+                                               <button type="submit" class="rounded bg-green-600 hover:bg-green-300 text-white font-bold py-1 px-1">
+                                                   @if($user->status == 'enable')
+                                                       DESACTIVAR
+                                                   @else
+                                                       ACTIVAR
+                                                   @endif</button>
+                                           </form>
+                                       </div>
+                                   </td>
+                                   <td class="border px-4 py-2 border-gray-900">
+                                       @if($user->status == 'enable')
+                                           USUARIO ACTIVO
+                                       @else
+                                           USUARIO INACTIVO
+                                       @endif
+                                   </td>
                                </tr>
                              @endforeach
                            </tbody>
@@ -80,3 +79,31 @@
         </div>
     </div>
 </x-app-layout>
+<script>
+    (function () {
+        'use strict'
+        //debemos crear la clase formEliminar dentro del form del boton borrar
+        //recordar que cada registro a eliminar esta contenido en un form
+        var forms = document.querySelectorAll('.formEliminar')
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                    Swal.fire({
+                        title: '¿CONFIRMA LA ELIMINACIÓN DEL USUARIO?',
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#20c997',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'CONFIRMAR'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                            Swal.fire('¡ELIMINADO!', 'EL USUARIO HA SIDO ELIMINADO EXITOSAMENTE.','success');
+                        }
+                    })
+                }, false)
+            })
+    })()
+</script>
