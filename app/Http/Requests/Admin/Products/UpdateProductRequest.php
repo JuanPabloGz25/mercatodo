@@ -14,8 +14,7 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => ['required'],
-            'image' => ['required'],
+            'code' => ['required'],
             'marca' => ['required'],
             'linea' => ['required'],
             'especificaciones' => ['required'],
