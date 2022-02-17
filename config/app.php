@@ -233,5 +233,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+        'exchange' => env ('EXCHANGE','COP')
 
 ];
