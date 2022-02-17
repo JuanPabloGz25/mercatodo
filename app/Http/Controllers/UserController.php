@@ -25,8 +25,8 @@ class UserController extends Controller
     }
 
     public function index(Request $request): View
-    {      
-        $users = User::paginate(5);
+    {
+        $users = User::paginate(6);
         return view('users.index', compact('users'));
     }
 
@@ -40,8 +40,10 @@ class UserController extends Controller
     {
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
-    
+
         $user = User::create($input);
+        $user->assignRole($request->input('roles'));
+
         return redirect()->route('users.index');
     }
 
@@ -50,23 +52,23 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-    
+
         return view('users.edit', compact('user','roles','userRole'));
     }
-    
+
     public function update(UpdateUserRequest $request, $id): RedirectResponse
     {
         $input = $request->all();
-        if(!empty($input['password'])){ 
+        if(!empty($input['password'])){
             $input['password'] = Hash::make($input['password']);
         }else{
-            $input = Arr::except($input,array('password'));    
+            $input = Arr::except($input,array('password'));
         }
-    
+
         $user = User::find($id);
         $user->update($input);
         $user->assignRole($request->input('roles'));
-    
+
         return redirect()->route('users.index');
     }
 

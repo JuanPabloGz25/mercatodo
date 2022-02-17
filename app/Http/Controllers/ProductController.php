@@ -19,12 +19,12 @@ class ProductController extends Controller
          $this->middleware('permission:editar-product', ['only' => ['edit','update']]);
          $this->middleware('permission:borrar-product', ['only' => ['destroy']]);
     }
-    
+
     public function index(): View
     {
-         $currency = config('app.currency');       
+         $exchange = config('app.exchange');
          $products = Products::paginate(5);
-         return view('products.index',compact('products','currency'));   
+         return view('products.index',compact('products','exchange'));
     }
 
     public function create(): View
@@ -41,41 +41,40 @@ class ProductController extends Controller
             $image->move($routeSaveImg, $imageProduct);
             $products['image'] = "$imageProduct";
         }
-        
+
         Products::create($products);
         return redirect()->route('products.index');
    }
 
     public function show($id)
     {
-        
+
     }
 
-    public function edit(Products $products): View
+    public function edit(Products $product): View
     {
-        return view('products.edit', compact('products'));
+        return view('products.edit', compact('product'));
     }
 
-    public function update(UpdateProductRequest $request, Products $products): RedirectResponse
+    public function update(UpdateProductRequest $request, Products $product): RedirectResponse
     {
-        
-        $prod = $request->all();
+        $product = $request->all();
          if($image = $request->file('image')){
             $rutaGuardarImg = 'image/';
-            $imageProducto = date('YmdHis') . "." . $image->getClientOriginalExtension(); 
-            $image->move($rutaGuardarImg, $imagenProducto);
-            $prod['image'] = "$imagenProducto";
+            $imageProduct = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($rutaGuardarImg, $imageProduct);
+            $product['image'] = "$imageProduct";
          }else{
-            unset($prod['image']);
+            unset($product['image']);
          }
-         $products->update($prod);
+         $product->update($product);
          return redirect()->route('products.index');
     }
 
     public function destroy($id): RedirectResponse
     {
         Products::find($id)->delete();
-    
+
         return redirect()->route('products.index');
     }
 }

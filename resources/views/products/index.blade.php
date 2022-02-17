@@ -30,7 +30,7 @@
                                  <td class="border px-4 py-2 border-gray-900"> {{ $product->marca }} </td>
                                  <td class="border px-4 py-2 border-gray-900"> {{ $product->linea }}</td>
                                  <td class="border px-4 py-2 border-gray-900">{{ $product->especificaciones }}</td>
-                                 <td class="border px-4 py-2 border-gray-900">{{ $product->price }} {{ $currency }}</td>
+                                 <td class="border px-4 py-2 border-gray-900">{{ $product->price }} {{ $exchange }}</td>
                                  <td class="border px-4 py-2 border-gray-900">{{ $product->stock }}</td>
 
                                    <td class="border px-4 py-2 border-gray-900">
