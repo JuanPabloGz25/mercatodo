@@ -1,77 +1,59 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Vehículos Disponibles') }}
+        <h2 class="bg-gray-300 font-black text-center text-3xl text-black-800 leading-tight">
+            {{ trans('VEHÍCULOS DISPONIBLES') }}
         </h2>
     </x-slot>
-
-    <form action="{{route('catalogo')}}" method="GET">
+    <br>
+    <div class="pb-10">
+        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+            <form action="{{route('catalogo')}}" method="GET">
                 <div class="form-group d-inline-flex">
-                    <input type="text" class="form-control" name="search" placeholder="Search here....." value="{{ request()->input('search') }}">
+                    <input type="text" class="form-control" name="search" placeholder="" value="{{ request()->input('search') }}">
                     <span class="text-danger">@error('queryUser'){{ $message }} @enderror</span>
-                    <button type="submit" class="bg-gray-500 rounded-full font-bold text-white px-4 py-3 transition duration-300 ease-in-out hover:bg-gray-600 mr-6">{{trans('Buscar')}}</button>
+                    <button type="submit" class="bg-blue-600 rounded-full font-bold text-black px-2 py-2 transition duration-300 ease-in-out hover:bg-blue-400 mr-6">{{trans('BUSCAR')}}</button>
                 </div>
-            </form>        
-                         
-                           <tbody>
-                             @foreach ($products as $product)
-                             <div class="w-full md:w-1/2 xl:w-1/3 px-4">
-            <div class="bg-white rounded-lg overflow-hidden mb-10">
-               <img
-                  src="/image/{{$product->image}}" width="50%"
-                  alt="image"
-                  class="w-full"
-                  />
-               <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
-                  <h3>
-                     <a
-                        href="javascript:void(0)"
-                        class="
-                        font-semibold
-                        text-dark text-xl
-                        sm:text-[22px]
-                        md:text-xl
-                        lg:text-[22px]
-                        xl:text-xl
-                        2xl:text-[22px]
-                        mb-4
-                        block
-                        hover:text-primary
-                        "
-                        >
-                     {{$product->marca}} {{$product->linea}}
-                     </a>
-                  </h3>
-                  <p class="text-base text-body-color leading-relaxed mb-7">
-                     {{ $product->especificaciones }}
-                  </p>
-                  <a
-                     href="javascript:void(0)"
-                     class="
-                     inline-block
-                     py-2
-                     px-7
-                     border border-[#E5E7EB]
-                     rounded-full
-                     text-base text-body-color
-                     font-medium
-                     hover:border-primary hover:bg-primary hover:text-white
-                     transition
-                     "
-                     >
-                     {{ $product->price }}
-                  </a>
-               </div>
-            </div>
-         </div>  
-                             @endforeach
-                           </tbody>
+            </form>
+            <br>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="bg-white rounded-lg shadow-sm text-center flex flex-col">
+                    <div class="px-10 py-12 bg-gray-300 grid gap-20 lg:grid-cols-3">
+                        @foreach($products as $product)
+                            <div class="p-4 border-8 border-black max-w-xs rounded-md overflow-hidden shadow-lg hover:scale-105 transition duration-500 cursor-pointer">
+                                {{--                        <td>{{$product->id}}</td>--}}
+                                <div>
+                                    <img  src="/image/{{ $product->image }}"/>
+                                </div>
+                                <div class="py-4 px-4 bg-blue-50">
+                                    <td class="font-bold"> {{$product->marca}} {{$product->linea}}</td>
+                                    <h3 class="text-md text-white"></h3>
+                                    <br>
+                                    <td class="mt-4 text-lg font-thin">{{$product->especificaciones}}</td>
+                                    <br>
+                                    <br>
+                                    <td> ${{$product->price}} COP </td>
+                                    <br>
 
-                       <div class="pagination justify-content-end">
-                         {!! $products->links() !!}
-                       </div>
+                                    <span class="flex items-center justify-center mt-4 w-full bg-blue-600 hover:bg-blue-400 py-1 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                            <button class="font-semibold text-black-800">COMPRAR</button>
+                            </span>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="pagination justify-content-end">
+                        {!! $products->links() !!}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 </x-app-layout>
+
+
+
+
