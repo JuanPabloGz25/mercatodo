@@ -58,16 +58,16 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Products $product): RedirectResponse
     {
-        $product = $request->all();
+        $prod = $request->all();
          if($image = $request->file('image')){
             $rutaGuardarImg = 'image/';
             $imageProduct = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($rutaGuardarImg, $imageProduct);
-            $product['image'] = "$imageProduct";
+            $prod['image'] = "$imageProduct";
          }else{
-            unset($product['image']);
+            unset($prod['image']);
          }
-         $product->update($product);
+         $product->update($prod);
          return redirect()->route('products.index');
     }
 
