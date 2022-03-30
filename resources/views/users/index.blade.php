@@ -1,32 +1,42 @@
 <x-app-layout>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('TABLA DE USUARIOS') }}
+        <h2 class="uppercase text-center text-5xl text-black font-bold" style="font-family: 'Merriweather', cursive;">
+            {{ __('Tabla de Usuarios') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-center">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+    <div class="py-6 bg-gradient-to-r from-blue-700 via-blue-300 to-blue-700 h-screen">
+        <div class="text-center px-4">
+            <div class="bg-gradient-to-r from-blue-700 via-blue-300 to-blue-700 overflow-hidden shadow-xl">
 
-                <a type="button" href="{{ route('users.create') }}" class="bg-indigo-500 px-12 py-2 rounded text-black-200 font-semibold hover:bg-indigo-800 transition duration-200 each-in-out">CREAR NUEVO USUARIO</a>
-                <table class="table-auto w-full">
-                    <thead>
-                    <tr class="bg-gray-900 text-white">
-                        <th class="border px-4 py-2">NOMBRE</th>
-                        <th class="border px-4 py-2">CORREO</th>
-                        <th class="border px-4 py-2">ROL</th>
-                        <th class="border px-4 py-2">ACCIONES</th>
-                        <th class="border px-4 py-2">ESTADO</th>
+                <a type="button" href="{{ route('users.create') }}" class="bg-yellow-500 px-16 py-2 rounded-3xl text-black font-bold hover:bg-yellow-200 transition duration-200 each-in-out">CREAR NUEVO USUARIO</a>
+                <table class="w-full table text-black border-separate border-4 border-transparent text-sm rounded-3xl mt-4">
+                    <thead class="uppercase font-bold text-center bg-yellow-500 text-black">
+                    <tr>
+                        <th class="p-2 rounded-3xl">Nombres</th>
+                        <th class="p-2 rounded-3xl">Apellidos</th>
+                        <th class="p-2 rounded-3xl">Correo</th>
+                        <th class="p-2 rounded-3xl">Documento</th>
+                        <th class="p-2 rounded-3xl">Teléfono</th>
+                        <th class="p-2 rounded-3xl">Permiso</th>
+                        <th class="p-2 rounded-3xl">Acciones</th>
+                        <th class="p-2 rounded-3xl">Estado</th>
                     </tr>
                     </thead>
                     <tbody>
 
                              @foreach ($users as $user)
-                               <tr>
-                                 <td class="border px-4 py-2 border-gray-900"> {{ $user->name }} </td>
-                                 <td class="border px-4 py-2 border-gray-900">{{ $user->email }} </td>
-                                 <td class="border px-4 py-2 border-gray-900">
+                               <tr class="bg-yellow-200 text-black text-center font-semibold">
+                                 <td class="p-2 rounded-3xl"> {{ $user->name }} </td>
+                                 <td class="p-2 rounded-3xl"> {{ $user->lastname }} </td>
+                                 <td class="p-2 rounded-3xl">{{ $user->email }} </td>
+                                 <td class="p-2 rounded-3xl">{{ $user->document }} </td>
+                                 <td class="p-2 rounded-3xl"> {{ $user->phone }} </td>
+                                 <td class="p-2 rounded-3xl">
                                     @if(!empty($user->getRoleNames()))
                                         @foreach($user->getRoleNames() as $rolName)
                                             <h5><span class="border px-4 py-2 border-gray-900">{{$rolName}}</span></h5>
@@ -34,36 +44,36 @@
                                     @endif
                                 </td>
 
-                                   <td class="border px-4 py-2 border-gray-900">
+                                   <td class="p-2 rounded-3xl">
                                        <div class="flex justify-center rounded-lg text-lg text-center" role="group">
                                            <!-- botón editar -->
-                                           <a href="{{ route('users.edit', $user->id) }}" class="rounded bg-blue-600 hover:bg-blue-300 text-white font-bold py-1 px-1">EDITAR</a>
+                                           <a href="{{ route('users.edit', $user->id) }}"><img src="https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-256.png" alt="" class="w-10 h-10"></a>
 
                                            <!-- botón borrar -->
                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="formEliminar">
                                                @csrf
                                                @method('DELETE')
-                                               <button type="submit" class="rounded bg-red-600 hover:bg-red-300 text-white font-bold py-1 px-1">BORRAR</button>
+                                               <button type="submit"><img src="https://cdn2.iconfinder.com/data/icons/humano2/128x128/actions/edit-delete.png" alt="" class="w-10 h-10"></button>
                                            </form>
 
                                            <!-- botón estado -->
                                            <form action="{{route('StatusChange', $user->id) }}"method="POST">
                                                @method('PUT')
                                                @csrf
-                                               <button type="submit" class="rounded bg-green-600 hover:bg-green-300 text-white font-bold py-1 px-1">
+                                               <button type="submit">
                                                    @if($user->status == 'enable')
-                                                       DESACTIVAR
+                                                       <img src="https://cdn4.iconfinder.com/data/icons/internet-security-flat-2/32/Internet_off_Alert_bell_notification_alarm_disable-256.png" alt="" class="w-10 h-10">
                                                    @else
-                                                       ACTIVAR
+                                                       <img src="https://cdn4.iconfinder.com/data/icons/internet-security-flat-2/32/Internet_Security_Alert_bell_notification_alarm_notice-256.png" alt="" class="w-10 h-10">
                                                    @endif</button>
                                            </form>
                                        </div>
                                    </td>
-                                   <td class="border px-4 py-2 border-gray-900">
+                                   <td class="p-2 rounded-3xl">
                                        @if($user->status == 'enable')
-                                           USUARIO ACTIVO
+                                           <h1 class="bg-green-500 rounded-full">ACTIVO</h1>
                                        @else
-                                           USUARIO INACTIVO
+                                           <h1 class="bg-red-600 rounded-full">INACTIVO</h1>
                                        @endif
                                    </td>
                                </tr>
@@ -96,7 +106,7 @@
                         showCancelButton: true,
                         confirmButtonColor: '#20c997',
                         cancelButtonColor: '#6c757d',
-                        confirmButtonText: 'CONFIRMAR'
+                        confirmButtonText: 'Confirmar'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             this.submit();
