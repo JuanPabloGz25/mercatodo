@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Arr;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Users\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
+use function redirect;
+use function view;
 
 class UserController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:ver-user|create-user|edit-user|borrar-user')->only('index');
-         $this->middleware('permission:crear-user', ['only' => ['create','store']]);
-         $this->middleware('permission:editar-user', ['only' => ['edit','update']]);
-         $this->middleware('permission:borrar-user', ['only' => ['destroy']]);
+         $this->middleware('permission:ver-usuarios|crear-usuarios|editar-usuarios|borrar-usuarios')->only('index');
+         $this->middleware('permission:crear-usuarios', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-usuarios', ['only' => ['edit','update']]);
+         $this->middleware('permission:borrar-usuarios', ['only' => ['destroy']]);
     }
 
     public function index(Request $request): View

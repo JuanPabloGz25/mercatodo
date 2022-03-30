@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Users\User;
 use Illuminate\Http\RedirectResponse;
+use function redirect;
 
 class StatusController extends Controller
 {
