@@ -2,14 +2,11 @@
 
 namespace Tests\Feature\Users;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class UserStoreFunctionTest extends TestCase
 
@@ -21,11 +18,11 @@ class UserStoreFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_store_a_user(): void
+    public function testItCanStoreUsers(): void
     {
-        Permission::create(['name' => 'crear-user']);
+        Permission::create(['name' => 'crear-usuarios']);
         $data = $this->userData();
-        $user = User::factory()->create()->givePermissionTo('crear-user');
+        $user = User::factory()->create()->givePermissionTo('crear-usuarios');
         $response = $this->actingAs($user)->post(route('users.store'), $data);
         $response->assertRedirect();
         $this->assertDatabaseHas('users', Arr::only($data,['name','email']));
@@ -34,8 +31,12 @@ class UserStoreFunctionTest extends TestCase
     private function userData(): array
     {
         return [
-            'name' => 'Alfredo',
-            'email' => 'alfredo@prueba.com',
+            'name' => 'Omar',
+            'lastname' => 'Barbosa',
+            'document' => '123456789',
+            'email' => 'omar@prueba.com',
+            'phone' => '3167255464',
+            'gender' => 'Masculino',
             'password' => '12345678',
             'confirm-password' => '12345678' ,
         ];

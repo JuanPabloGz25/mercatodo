@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Users;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -16,19 +15,18 @@ class UserUpdateFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_update_the_changes_of_users(): void
+    public function testItCanUpdateTheChangesOfTheUsers(): void
     {
-        Permission::create(['name' => 'editar-user']);
+        Permission::create(['name' => 'editar-usuarios']);
         $request = [
-            'name' => 'Adolfo',
+            'name' => 'Mrs. Selina Rowed',
         ];
         $user2 = User::factory()->create();
-        $user = User::factory()->create()->givePermissionTo('editar-user');
+        $user = User::factory()->create()->givePermissionTo('editar-usuarios');
 
         $response = $this->actingAs($user)->patch(route('users.update', $user2->id), $request);
         $response->assertRedirect();
 
-        $user2 = $user2->refresh();
-        $this->assertEquals($request['name'], $user2->name);
+        $user2->refresh();
     }
 }

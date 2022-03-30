@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Users;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -16,11 +15,11 @@ class UserDestroyFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_destroy_users(): void
+    public function testItCanDestroyUsers(): void
     {
-        Permission::create(['name' => 'borrar-user']);
+        Permission::create(['name' => 'borrar-usuarios']);
         $user2 = User::factory()->create();
-        $user = User::factory()->create()->givePermissionTo('borrar-user');
+        $user = User::factory()->create()->givePermissionTo('borrar-usuarios');
         $response = $this->actingAs($user)->delete("/users/{$user2->id}");
         $response->assertRedirect();
     }

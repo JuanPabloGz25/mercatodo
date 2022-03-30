@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Users;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -16,11 +15,11 @@ class UserEditFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_edit_an_user(): void
+    public function testItCanEditAnUser(): void
     {
-        Permission::create(['name' => 'editar-user']);
+        Permission::create(['name' => 'editar-usuarios']);
         $user2 = User::factory()->create();
-        $user = User::factory()->create()->givePermissionTo('editar-user');
+        $user = User::factory()->create()->givePermissionTo('editar-usuarios');
         $response = $this->actingAs($user)->get("/users/{$user2->id}/edit");
         $response->assertStatus(200);
         $response->assertViewIs('users.edit');
