@@ -6,23 +6,32 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductsTable extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->char('code', 6);
-            $table->string('image');
-            $table->tinyText('marca');
-            $table->tinyText('linea');
-            $table->tinyText('especificaciones');
-            $table->BigInteger('price');
+            $table->tinyText('category');
+            $table->tinyText('brand');
+            $table->tinyText('line');
+            $table->string('model');
+            $table->tinyText('color');
+            $table->tinyText('transmission');
+            $table->decimal('kilometre');
+            $table->tinyText('engine');
+            $table->tinyText('fuel');
+            $table->tinyText('torque');
+            $table->tinyText('power');
+            $table->float('price',8,2);
             $table->unsignedInteger('stock');
+            $table->tinyText('description');
+            $table->string('image');
             $table->enum('status',['enable','disable'])->default('enable');
             $table->timestamps();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }
