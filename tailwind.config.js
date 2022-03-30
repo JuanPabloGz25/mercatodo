@@ -15,5 +15,13 @@ module.exports = {
         },
     },
 
+    theme: {
+        extend: {
+            space: {
+                '5px': '5px',
+            },
+        },
+    },
+
     plugins: [require('@tailwindcss/forms')],
 };
