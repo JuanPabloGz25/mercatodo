@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Users;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Users\User;
+use Illuminate\Http\RedirectResponse;
+use function redirect;
 
 class StatusController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update($id)
+    public function update($id): RedirectResponse
     {
         $user = User::find($id);
 
@@ -25,4 +21,4 @@ class StatusController extends Controller
         $user->save();
         return redirect()->route('users.index');
     }
-    }
+}

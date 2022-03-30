@@ -6,6 +6,12 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Models\News\News;
+use App\Models\Users\User;
+use App\Models\Products\Products;
+use App\Models\Remittances\Remittance;
+use App\Observers\ModelObserver;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::observe(ModelObserver::class);
+        News::observe(ModelObserver::class);
+        Products::observe(ModelObserver::class);
+        Remittance::observe(ModelObserver::class);
     }
 }

@@ -1,21 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\StatusController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Invoices\AdminInvoicesController;
+use App\Http\Controllers\News\CurrentlyNewsController;
+use App\Http\Controllers\News\NewsController;
+use App\Http\Controllers\News\StatusNewsController;
+use App\Http\Controllers\Permissions\RolController;
+use App\Http\Controllers\Products\ProductController;
+use App\Http\Controllers\Products\StatusProductController;
+use App\Http\Controllers\Products\VitrinaController;
+use App\Http\Controllers\Remittances\RemittanceController;
+use App\Http\Controllers\Remittances\TryRemittanceController;
+use App\Http\Controllers\ShoppingCart\CartController;
+use App\Http\Controllers\Users\StatusController;
+use App\Http\Controllers\Users\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,8 +30,38 @@ Route::group(['middleware'=>['auth','verified']],function (){
 
 Route::put('/StatusChange/{user}', [StatusController::class,'update'])->name('StatusChange');
 
+Route::put('/StatusProduct/{product}', [StatusProductController::class,'update'])->name('StatusProduct');
+
+Route::put('/StatusNew/{news}', [StatusNewsController::class,'update'])->name('StatusNew');
+
+Route::get('/catalogo', [VitrinaController::class,'vitrina'])->name('catalogo');
+
+Route::get('/pagos', [AdminInvoicesController::class,'index'])->name('pagos');
+
+Route::get('/actualidad', [CurrentlyNewsController::class,'currently'])->name('actualidad');
+
+Route::post('/tryRemittance', [TryRemittanceController::class,'store'])->name('tryRemittance');
+
 Route::get('/disable', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('disable');
 
     require __DIR__.'/auth.php';
+
+Route::group(['middleware' => ['auth']], function() {
+     Route::resource('roles', RolController::class);
+     Route::resource('users', UserController::class);
+     Route::resource('products', ProductController::class);
+     Route::resource('news', NewsController::class);
+
+Route::group(['middleware' => ['auth']], function (){
+     Route::get('cart', [CartController::class, 'cartList'])->name('cart.list');
+            Route::post('cart', [CartController::class, 'addToCart'])->name('cart.store');
+            Route::post('update-cart', [CartController::class, 'updateCart'])->name('cart.update');
+            Route::post('remove', [CartController::class, 'removeCart'])->name('cart.remove');
+            Route::post('clear', [CartController::class, 'clearAllCart'])->name('cart.clear');
+    });
+Route::resource('external-api',RemittanceController::class);
+});
+
+

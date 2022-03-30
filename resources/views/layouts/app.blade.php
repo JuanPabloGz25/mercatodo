@@ -9,9 +9,12 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        @yield('css')
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
@@ -21,7 +24,7 @@
             @include('layouts.navigation')
 
             <!-- Page Heading -->
-            <header class="bg-white shadow">
+            <header class="bg-gradient-to-r from-blue-700 via-blue-300 to-blue-700 border-b-2 border-red-700">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
@@ -32,5 +35,11 @@
                 {{ $slot }}
             </main>
         </div>
+
+{{--        @livewireScripts--}}
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     </body>
 </html>
+
+
