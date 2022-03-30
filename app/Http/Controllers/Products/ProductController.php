@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Products;
 
-use Illuminate\Http\Request;
-use App\Models\Products;
-use Illuminate\Http\UploadedFile;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Products\StoreProductRequest;
+use App\Http\Requests\Products\UpdateProductRequest;
+use App\Models\Products\Products;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Http\Requests\Admin\Products\StoreProductRequest;
-use App\Http\Requests\Admin\Products\UpdateProductRequest;
+use function config;
+use function redirect;
+use function view;
 
 class ProductController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:ver-product|create-product|edit-product|borrar-product')->only('index');
-         $this->middleware('permission:crear-product', ['only' => ['create','store']]);
-         $this->middleware('permission:editar-product', ['only' => ['edit','update']]);
-         $this->middleware('permission:borrar-product', ['only' => ['destroy']]);
+         $this->middleware('permission:ver-productos|crear-productos|editar-productos|borrar-productos')->only('index');
+         $this->middleware('permission:crear-productos', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-productos', ['only' => ['edit','update']]);
+         $this->middleware('permission:borrar-productos', ['only' => ['destroy']]);
     }
 
     public function index(): View
@@ -46,9 +48,11 @@ class ProductController extends Controller
         return redirect()->route('products.index');
    }
 
-    public function show($id)
+    public function show(Products $product): View
     {
+        $exchange = config('app.exchange');
 
+        return view('products.show',compact('product','exchange'));
     }
 
     public function edit(Products $product): View
@@ -74,7 +78,6 @@ class ProductController extends Controller
     public function destroy($id): RedirectResponse
     {
         Products::find($id)->delete();
-
         return redirect()->route('products.index');
     }
 }
