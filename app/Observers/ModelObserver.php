@@ -7,17 +7,17 @@ use Illuminate\Support\Facades\Log;
 
 class ModelObserver
 {
-    public function created(Model $model)
+    public function created(Model $model): void
     {
         Log::info($this->getMessage($model, 'created'), $this->info($model));
     }
 
-    public function updated(Model $model)
+    public function updated(Model $model): void
     {
         Log::info($this->getMessage($model, 'updated'), $this->info($model));
     }
 
-    public function deleted(Model $model)
+    public function deleted(Model $model): void
     {
         Log::warning($this->getMessage($model, 'deleted'), $this->info($model));
     }
