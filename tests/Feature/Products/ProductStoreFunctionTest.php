@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Products;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
@@ -13,19 +12,28 @@ class ProductStoreFunctionTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_store_a_product(): void
+    public function testItCanStoreProducts(): void
     {
-        Permission::create(['name' => 'crear-product']);
+        Permission::create(['name' => 'crear-productos']);
         $data= [
-            'code' => 100000,
-            'marca' => 'marca test',
-            'linea' => 'linea test',
-            'especificaciones' => 'especificaciones test',
-            'price' => 100,
+            'code' => 123456,
+            'category' => 'category test',
+            'brand' => 'brand test',
+            'line' => 'line test',
+            'model' => 2020,
+            'color' => 'color test',
+            'transmission' => 'transmission test',
+            'kilometre' => 2500,
+            'engine' => 'engine test',
+            'fuel' => 'fuel test',
+            'torque' => 'torque test',
+            'power' => 'power test',
+            'price' => 10000,
             'stock' => 10,
+            'description' => 'description test',
             'image' => UploadedFile::fake()->image('product.jpg', 500, 250)->size(250),
         ];
-        $user = User::factory()->create()->givePermissionTo('crear-product');
+        $user = User::factory()->create()->givePermissionTo('crear-productos');
         $response = $this->actingAs($user)->post(route('products.store'), $data);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();

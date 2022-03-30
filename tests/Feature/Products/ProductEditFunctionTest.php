@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Products;
 
-use App\Models\Products;
-use App\Models\User;
+use App\Models\Products\Products;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -13,11 +12,11 @@ class ProductEditFunctionTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_can_edit_an_product(): void
+    public function testItCanEditAnProduct(): void
     {
-        Permission::create(['name' => 'editar-product']);
+        Permission::create(['name' => 'editar-productos']);
         $product = Products::factory()->create();
-        $user = User::factory()->create()->givePermissionTo('editar-product');
+        $user = User::factory()->create()->givePermissionTo('editar-productos');
         $response = $this->actingAs($user)->get("/products/{$product->id}/edit");
         $response->assertStatus(200);
         $response->assertViewIs('products.edit');
