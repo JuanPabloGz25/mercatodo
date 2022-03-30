@@ -1,9 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Users;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use function now;
 
 class UserFactory extends Factory
 {
@@ -16,9 +17,13 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'lastname' => $this->faker->lastname(),
+            'document' => '1000644196',
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
+            'phone' => '3005925211',
+            'gender' => $this->faker->words(2, true),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];
     }
