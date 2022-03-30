@@ -1,68 +1,74 @@
 <x-app-layout>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-black-800 leading-tight">
-            {{ __('TABLA DE PRODUCTOS') }}
+        <h2 class="uppercase text-center text-5xl text-black font-bold" style="font-family: 'Merriweather', cursive;">
+            {{ __('Tabla de Productos') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg text-center">
+    <div class="py-6 bg-gradient-to-r from-blue-700 via-blue-300 to-blue-700 h-screen">
+        <div class="text-center px-4">
+            <div class="bg-gradient-to-r from-blue-700 via-blue-300 to-blue-700 overflow-hidden shadow-xl">
 
-                <a type="button" href="{{ route('products.create') }}" class="bg-indigo-500 px-12 py-2 rounded text-black-200 font-semibold hover:bg-indigo-800 transition duration-200 each-in-out">CREAR NUEVO PRODUCTO</a>
-                <table class="table-auto w-full text-center">
-                    <thead>
-                    <tr class="bg-gray-800 text-white text-center border px-4 py-2">
+                <a type="button" href="{{ route('products.create') }}" class="bg-yellow-500 px-16 py-2 rounded-3xl text-black font-bold hover:bg-yellow-200 transition duration-200 each-in-out">CREAR NUEVO PRODUCTO</a>
+                <table class="w-full table text-black border-separate border-4 border-transparent text-sm rounded-3xl mt-4">
+                    <thead class="uppercase font-bold text-center bg-yellow-500 text-black">
+                    <tr>
                         <th style="display: none;">ID</th>
-                        <th class="border px-4 py-2">MARCA</th>
-                        <th class="border px-4 py-2">LÍNEA</th>
-                        <th class="border px-4 py-2">ESPECIFICACIONES</th>
-                        <th class="border px-4 py-2">PRECIO</th>
-                        <th class="border px-4 py-2">STOCK</th>
-                        <th class="border px-4 py-2">ACCIONES</th>
-                        <th class="border px-4 py-2">ESTADO</th>
+                        <th class="p-2 rounded-3xl">Código</th>
+                        <th class="p-2 rounded-3xl">Categoria</th>
+                        <th class="p-2 rounded-3xl">Marca</th>
+                        <th class="p-2 rounded-3xl">Línea</th>
+                        <th class="p-2 rounded-3xl">Precio</th>
+                        <th class="p-2 rounded-3xl">Stock</th>
+                        <th class="p-2 rounded-3xl">Acciones</th>
+                        <th class="p-2 rounded-3xl">Estado</th>
                     </tr>
                     </thead>
                     <tbody>
                              @foreach ($products as $product)
-                               <tr>
-                                 <td class="border px-4 py-2 border-gray-900" style="display: none;">{{$product->code}}</td>
-                                 <td class="border px-4 py-2 border-gray-900"> {{ $product->marca }} </td>
-                                 <td class="border px-4 py-2 border-gray-900"> {{ $product->linea }}</td>
-                                 <td class="border px-4 py-2 border-gray-900">{{ $product->especificaciones }}</td>
-                                 <td class="border px-4 py-2 border-gray-900">{{ $product->price }} {{ $exchange }}</td>
-                                 <td class="border px-4 py-2 border-gray-900">{{ $product->stock }}</td>
+                               <tr class="bg-yellow-200 text-black text-center font-semibold">
+                                 <td class="p-2 rounded-3xl" style="display: none;">{{$product->code}}</td>
+                                 <td class="p-2 rounded-3xl"> {{ $product->code }} </td>
+                                 <td class="p-2 rounded-3xl"> {{ $product->category }} </td>
+                                 <td class="p-2 rounded-3xl"> {{ $product->brand }}</td>
+                                 <td class="p-2 rounded-3xl">{{ $product->line }}</td>
+                                 <td class="p-2 rounded-3xl">{{ $product->price }} {{ $exchange }}</td>
+                                 <td class="p-2 rounded-3xl">{{ $product->stock }}</td>
 
-                                   <td class="border px-4 py-2 border-gray-900">
+                                   <td class="p-2 rounded-3xl">
                                        <div class="flex justify-center rounded-lg text-lg" role="group">
                                            <!-- botón editar -->
-                                           <a href="{{ route('products.edit', $product->id) }}" class="rounded bg-blue-600 hover:bg-blue-300 text-white font-bold py-1 px-1">EDITAR</a>
+                                           <a href="{{ route('products.edit', $product->id) }}"><img src="https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-256.png" alt="" class="w-10 h-10"></a>
 
                                            <!-- botón borrar -->
                                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="formEliminar">
                                                @csrf
                                                @method('DELETE')
-                                               <button type="submit" class="rounded bg-red-600 hover:bg-red-300 text-white font-bold py-1 px-1">BORRAR</button>
+                                               <button type="submit"><img src="https://cdn2.iconfinder.com/data/icons/humano2/128x128/actions/edit-delete.png" alt="" class="w-10 h-10"></button>
                                            </form>
 
                                            <!-- botón estado -->
                                            <form action="{{route('StatusProduct', $product->id) }}"method="POST">
                                                @method('PUT')
                                                @csrf
-                                               <button type="submit" class="rounded bg-green-600 hover:bg-green-300 text-white font-bold py-1 px-1">
+                                               <button type="submit">
                                                    @if($product->status == 'enable')
-                                                       DESACTIVAR
+                                                       <img src="https://cdn4.iconfinder.com/data/icons/internet-security-flat-2/32/Internet_off_Alert_bell_notification_alarm_disable-256.png" alt="" class="w-10 h-10">
                                                    @else
-                                                       ACTIVAR
+                                                       <img src="https://cdn4.iconfinder.com/data/icons/internet-security-flat-2/32/Internet_Security_Alert_bell_notification_alarm_notice-256.png" alt="" class="w-10 h-10">
                                                    @endif</button>
                                            </form>
                                        </div>
                                    </td>
-                                   <td class="border px-4 py-2 border-gray-900">
+                                   <td class="p-2 rounded-3xl font-bold">
                                         @if($product->status == 'enable')
-                                            PRODUCTO ACTIVO
+                                            <h1 class="bg-green-500 rounded-full">ACTIVO</h1>
                                         @else
-                                            PRODUCTO INACTIVO
+                                           <h1 class="bg-red-600 rounded-full">INACTIVO</h1>
                                         @endif
                                    </td>
                                </tr>
@@ -95,7 +101,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#20c997',
                 cancelButtonColor: '#6c757d',
-                confirmButtonText: 'CONFIRMAR'
+                confirmButtonText: 'Confirmar'
             }).then((result) => {
                 if (result.isConfirmed) {
                     this.submit();
