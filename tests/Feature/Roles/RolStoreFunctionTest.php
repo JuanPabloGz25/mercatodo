@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Roles;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
@@ -13,15 +12,15 @@ class RolStoreFunctionTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_can_store_a_rol(): void
+    public function testItCanStoreRoles(): void
     {
-        Permission::create(['name' => 'crear-rol']);
+        Permission::create(['name' => 'crear-roles']);
         $data = [
             'name' => 'rol test',
-            'permission' => 'crear-rol'
+            'permission' => 'crear-roles'
         ];
 
-        $user = User::factory()->create()->givePermissionTo('crear-rol');
+        $user = User::factory()->create()->givePermissionTo('crear-roles');
         $response = $this->actingAs($user)->post(route('roles.store'), $data);
         $response->assertRedirect();
         $this->assertDatabaseHas('roles', Arr::only($data,['name']));

@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Roles;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
@@ -17,10 +16,10 @@ class RolCreateFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_access_to_the_route_to_create_rol(): void
+    public function testItCanAccessToTheRouteToCreateRol(): void
     {
-        Permission::create(['name' => 'crear-rol']);
-        $user = User::factory()->create()->givePermissionTo('crear-rol');
+        Permission::create(['name' => 'crear-roles']);
+        $user = User::factory()->create()->givePermissionTo('crear-roles');
         $response = $this->actingAs($user)->get(route('roles.create'));
         $response->assertStatus(200);
     }

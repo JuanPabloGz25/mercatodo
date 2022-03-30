@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Roles;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -17,19 +16,19 @@ class RolUpdateFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_update_a_user(): void
+    public function testItCanUpdateUser(): void
     {
-        Permission::create(['name' => 'editar-rol']);
+        Permission::create(['name' => 'editar-roles']);
         $request = [
-            'name' => 'Adolfo',
+            'name' => 'Omar',
         ];
 
-        $rol = Role::create(['name' => 'Adolfo']);
+        $rol = Role::create(['name' => 'Omar']);
         $permission = Permission::create(['name' => 'edit posts']);
         $rol->givePermissionTo($permission);
         $permission->assignRole($rol);
 
-        $user = User::factory()->create()->givePermissionTo('editar-rol');
+        $user = User::factory()->create()->givePermissionTo('editar-roles');
 
         $response = $this->actingAs($user)->patch(route('roles.update', $rol->id), $request);
         $response->assertRedirect();

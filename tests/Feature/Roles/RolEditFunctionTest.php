@@ -2,12 +2,11 @@
 
 namespace Tests\Feature\Roles;
 
-use App\Models\User;
+use App\Models\Users\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Spatie\Permission\Models\Permission;
-use Tests\TestCase;
 use Spatie\Permission\Models\Role;
+use Tests\TestCase;
 
 class RolEditFunctionTest extends TestCase
 {
@@ -18,15 +17,15 @@ class RolEditFunctionTest extends TestCase
      *
      * @return void
      */
-    public function test_it_can_edit_a_rol(): void
+    public function testItCanEditRoles(): void
     {
-        Permission::create(['name' => 'editar-rol']);
+        Permission::create(['name' => 'editar-roles']);
         $rol = Role::create(['name' => 'reader']);
         $permission = Permission::create(['name' => 'edit posts']);
         $rol->givePermissionTo($permission);
         $permission->assignRole($rol);
 
-        $user = User::factory()->create()->givePermissionTo('editar-rol');
+        $user = User::factory()->create()->givePermissionTo('editar-roles');
 
         $response = $this->actingAs($user)->get("/roles/{$rol->id}/edit");
         $response->assertStatus(200);
