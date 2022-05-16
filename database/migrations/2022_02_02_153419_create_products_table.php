@@ -13,7 +13,7 @@ class CreateProductsTable extends Migration
             $table->char('code', 6);
             $table->tinyText('category');
             $table->tinyText('brand');
-            $table->tinyText('line');
+            $table->tinyText('line')->unique();
             $table->string('model');
             $table->tinyText('color');
             $table->tinyText('transmission');
@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             $table->float('price',8,2);
             $table->unsignedInteger('stock');
             $table->tinyText('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->enum('status',['enable','disable'])->default('enable');
             $table->timestamps();
         });
