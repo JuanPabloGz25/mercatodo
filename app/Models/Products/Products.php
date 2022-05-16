@@ -28,6 +28,7 @@ class Products extends Model
         'stock',
         'description',
         'image',
+        'status'
     ];
 
     public function scopeSearch(Builder $query): Builder
