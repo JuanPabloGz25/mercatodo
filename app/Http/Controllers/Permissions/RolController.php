@@ -7,6 +7,7 @@ use App\Http\Requests\Rol\StoreRolRequest;
 use App\Http\Requests\Rol\UpdateRolRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Spatie\Permission\Models\Permission;
@@ -26,7 +27,9 @@ class RolController extends Controller
 
     public function index(Request $request): View
     {
-         $roles = Role::paginate(5);
+         $roles = Cache::rememberForever('role', function () {
+             return Role::all();
+         });
          return view('roles.index',compact('roles'));
     }
 
@@ -41,6 +44,7 @@ class RolController extends Controller
     {
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
+        Cache::forget('role');
 
         return redirect()->route('roles.index');
     }
@@ -48,7 +52,6 @@ class RolController extends Controller
 
     public function show($id): void
     {
-
     }
 
     public function edit($id): View
@@ -67,8 +70,8 @@ class RolController extends Controller
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
-
         $role->syncPermissions($request->input('permission'));
+        Cache::forget('role');
 
         return redirect()->route('roles.index');
     }
@@ -76,6 +79,8 @@ class RolController extends Controller
     public function destroy($id): RedirectResponse
     {
         DB::table("roles")->where('id',$id)->delete();
+        Cache::forget('role');
+
         return redirect()->route('roles.index');
     }
 }
