@@ -14,21 +14,21 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => ['required'],
-            'category' => ['required'],
-            'brand' => ['required'],
-            'line' => ['required'],
-            'model' => ['required'],
-            'color' => ['required'],
-            'transmission' => ['required'],
-            'kilometre' => ['required'],
-            'engine' => ['required'],
-            'fuel' => ['required'],
-            'torque' => ['required'],
-            'power' => ['required'],
-            'price' => ['required'],
-            'stock' => ['required'],
-            'description' => ['required'],
+            'code' => ['filled'],
+            'category' => ['filled'],
+            'brand' => ['filled','string','max:50'],
+            'line' => ['filled'],
+            'model' => ['filled'],
+            'color' => ['filled'],
+            'transmission' => ['filled'],
+            'kilometre' => ['filled'],
+            'engine' => ['filled'],
+            'fuel' => ['filled'],
+            'torque' => ['filled'],
+            'power' => ['filled'],
+            'price' => ['filled'],
+            'stock' => ['filled'],
+            'description' => ['filled'],
         ];
     }
 }

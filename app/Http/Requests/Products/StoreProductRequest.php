@@ -29,7 +29,6 @@ class StoreProductRequest extends FormRequest
             'price' => ['required'],
             'stock' => ['required'],
             'description' => ['required'],
-            'image' => ['required'],
         ];
     }
 }
