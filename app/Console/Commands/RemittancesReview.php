@@ -8,16 +8,16 @@ use Illuminate\Console\Command;
 
 class RemittancesReview extends Command
 {
-    protected $signature = 'command:name';
+    protected $signature = 'remittance:review';
 
     protected $description = 'Command description';
 
     public function handle()
     {
-        $remittances = Remittance::whereIn('status', 'pending')->get();
+        $remittances = Remittance::where('status', 'pending')->get();
         foreach ($remittances as $remittance)
         {
-            RemittancesReviewJob::dispatch($remittance);
+            dispatch(new RemittancesReviewJob($remittance));
         }
     }
 }

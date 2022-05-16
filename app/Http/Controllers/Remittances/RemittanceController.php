@@ -20,8 +20,11 @@ class RemittanceController extends Controller
         $remittances = Remittance::where('user_id', $user)->paginate(6);
         foreach ($remittances as $remittance)
         {
-            $RemittanceGatewayContract->queryRemittance($remittance);
+            if ($remittance->request_id) {
+                $RemittanceGatewayContract->queryRemittance($remittance);
+            }
         }
+
 
         return view('invoices.index', compact('remittances'));
     }
@@ -29,6 +32,7 @@ class RemittanceController extends Controller
     public function store(Request $request, RemittanceGatewayContract $remittanceGatewayContract): RedirectResponse
     {
         $shoppingCart = \Cart::getContent();
+
         $data = $remittanceGatewayContract->createSession($shoppingCart, $request);
 //        dd($data->response);
         return $data->payment->status == 'pending'

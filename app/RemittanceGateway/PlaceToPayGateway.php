@@ -28,6 +28,28 @@ class PlaceToPayGateway implements RemittanceGatewayContract
         return $this;
     }
 
+    public function queryRemittance(Remittance $remittance): Remittance
+    {
+        $response = $this->placetopay->query($remittance->request_id);
+        try {
+            if ($response->isSuccessful()){
+                if ($response->status()->isApproved()){
+                    $remittance->status = 'successful';
+                    $remittance->payment_date = new Carbon($response->status()->date());
+                }elseif ($response->status()->isRejected()){
+                    $remittance->status = 'rejected';
+                }
+                $remittance->save();
+            }
+        }
+        catch (Throwable $exception)
+        {
+            report($exception);
+            throw new GatewayException($exception->getMessage());
+        }
+        return $remittance;
+    }
+
     public function createSession(Collection $shoppingCart, Request $request): object
     {
         $totalPrice = 0;
@@ -88,32 +110,7 @@ class PlaceToPayGateway implements RemittanceGatewayContract
             ];
         }catch (Throwable $exception){
             report($exception);
-            throw new GatewayException($exception->getMessage());
+            throw $exception;
         }
     }
-
-    public function queryRemittance(Remittance $remittance): Remittance
-    {
-        $response = $this->placetopay->query($remittance->request_id);
-
-        try {
-            if ($response->isSuccessful()){
-                if ($response->status()->isApproved()){
-                    $remittance->status = 'successful';
-                    $remittance->payment_date = new Carbon($response->status()->date());
-//                    $payment->receipt = Arr::get($response->payment(),'receipt');
-                }elseif ($response->status()->isRejected()){
-                    $remittance->status = 'rejected';
-                }
-                $remittance->save();
-            }
-        }
-        catch (Throwable $exception)
-        {
-            report($exception);
-            throw new GatewayException($exception->getMessage());
-        }
-        return $remittance;
-    }
-
 }
