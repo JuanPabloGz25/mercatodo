@@ -1,7 +1,7 @@
 require('./bootstrap');
 
-import Alpine from 'alpinejs';
+import { createApp } from "vue";
+import Charts from '../vue/components/Charts.vue';
 
-window.Alpine = Alpine;
+createApp(Charts).mount('#Charts')
 
-Alpine.start();
