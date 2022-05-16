@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\News;
 
+use App\Events\NewVisited;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\News\StoreNewsRequest;
 use App\Http\Requests\News\UpdateNewsRequest;
@@ -49,6 +50,7 @@ class NewsController extends Controller
     public function show($id): View
     {
         $new = News::find($id);
+        NewVisited::dispatch($new);
         return view('news.show',compact('new',));
     }
 
