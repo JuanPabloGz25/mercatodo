@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Exports\ProductsExportController;
+use App\Http\Controllers\Exports\RemittancesExportController;
+use App\Http\Controllers\Exports\UsersExportController;
+use App\Http\Controllers\Imports\ProductsImportController;
 use App\Http\Controllers\Invoices\AdminInvoicesController;
 use App\Http\Controllers\News\CurrentlyNewsController;
 use App\Http\Controllers\News\NewsController;
@@ -39,6 +43,18 @@ Route::get('/catalogo', [VitrinaController::class,'vitrina'])->name('catalogo');
 Route::get('/pagos', [AdminInvoicesController::class,'index'])->name('pagos');
 
 Route::get('/actualidad', [CurrentlyNewsController::class,'currently'])->name('actualidad');
+
+Route::get('/exports', [ProductsExportController::class,'index'])->name('exports');
+
+Route::get('/exportsProducts', [ProductsExportController::class,'export'])->name('export.products');
+
+Route::get('/exportsRemittances', [RemittancesExportController::class,'export'])->name('export.remittances');
+
+Route::get('/exportsUsers', [UsersExportController::class,'export'])->name('export.users');
+
+Route::get('/imports', [ProductsImportController::class,'index'])->name('imports');
+
+Route::post('/importsProducts', [ProductsImportController::class,'import'])->name('import.products');
 
 Route::post('/tryRemittance', [TryRemittanceController::class,'store'])->name('tryRemittance');
 
