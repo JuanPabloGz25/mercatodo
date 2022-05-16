@@ -18,11 +18,15 @@
     "lodash": "^4.17.19",
     "postcss": "^8.2.1",
     "postcss-import": "^14.0.1",
-    "tailwindcss": "^2.2.19"
+    "tailwindcss": "^2.2.19",
+    "vue-loader": "^16.2.0"
   },
   "dependencies": {
-    "@tailwindcss/jit": "^0.1.18",
-    "postcss-cli": "^9.1.0"
+    "@tailwindcss/jit": "^0.1.10",
+    "chart.js": "^3.7.1",
+    "postcss-cli": "^9.1.0",
+    "vue": "^3.2.33",
+    "vue-chartjs": "^4.1.0"
   },
   "name": "mercatodo",
   "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\"></a></p>",
